@@ -1,0 +1,20 @@
+# LaTeX build files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+
+# Temporary tooling
+tmp/
+
+# Keep only the published CV PDF
+output/pdf/*.pdf
+!output/pdf/Sandeep_Regmi_CV_2026.pdf

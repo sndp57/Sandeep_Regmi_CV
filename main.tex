@@ -1,256 +1,321 @@
-\documentclass[11pt, letterpaper]{article}
+\documentclass[10pt,letterpaper]{article}
 
-% Packages:
 \usepackage[
-    ignoreheadfoot, % set margins without considering header and footer
-    top=2 cm, % seperation between body and page edge from the top
-    bottom=2 cm, % seperation between body and page edge from the bottom
-    left=2 cm, % seperation between body and page edge from the left
-    right=2 cm, % seperation between body and page edge from the right
-    footskip=1.0 cm, % seperation between body and footer
-    % showframe % for debugging 
-]{geometry} % for adjusting page geometry
-\usepackage{titlesec} % for customizing section titles
-\usepackage{tabularx} % for making tables with fixed width columns
-\usepackage{array} % tabularx requires this
-\usepackage[dvipsnames]{xcolor} % for coloring text
-\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
-\usepackage{enumitem} % for customizing lists
-\usepackage{fontawesome5} % for using icons
-\usepackage{amsmath} % for math
+  top=0.68in,
+  bottom=0.70in,
+  left=0.76in,
+  right=0.76in,
+  footskip=0.32in
+]{geometry}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{iftex}
+\usepackage{needspace}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
 \usepackage[
-    pdftitle={Sandeep's CV},
-    pdfauthor={Sandeep Regmi},
-    pdfcreator={LaTeX with RenderCV},
-    colorlinks=true,
-    urlcolor=primaryColor
-]{hyperref} % for links, metadata and bookmarks
-\usepackage[pscoord]{eso-pic} % for floating text on the page
-\usepackage{calc} % for calculating lengths
-\usepackage{bookmark} % for bookmarks
-\usepackage{lastpage} % for getting the total number of pages
-\usepackage{changepage} % for one column entries (adjustwidth environment)
-\usepackage{paracol} % for two and three column entries
-\usepackage{ifthen} % for conditional statements
-\usepackage{needspace} % for avoiding page brake right after the section title
-\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+  pdftitle={Sandeep Regmi - Curriculum Vitae},
+  pdfauthor={Sandeep Regmi},
+  pdfcreator={LaTeX},
+  colorlinks=true,
+  urlcolor=primaryColor
+]{hyperref}
 
-% Ensure that generate pdf is machine readable/ATS parsable:
+\definecolor{primaryColor}{RGB}{0,0,0}
+\definecolor{mutedColor}{RGB}{0,0,0}
+
+% Keep the generated PDF searchable and ATS-readable.
 \ifPDFTeX
-    \input{glyphtounicode}
-    \pdfgentounicode=1
-    % \usepackage[T1]{fontenc} % this breaks sb2nov
-    \usepackage[utf8]{inputenc}
-    \usepackage{lmodern}
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
 \fi
 
-% Some settings:
-\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
-\pagestyle{empty} % no header or footer
-\setcounter{secnumdepth}{0} % no section numbering
-\setlength{\parindent}{0pt} % no indentation
-\setlength{\topskip}{0pt} % no top skip
-\setlength{\columnsep}{0cm} % set column seperation
-\makeatletter
-\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
-\patchcmd{\ps@customFooterStyle}{\thepage}{
-    \color{gray}\textit{\small Page \thepage{} of \pageref*{LastPage}}
-}{}{} % replace number by desired string
-\makeatother
-\pagestyle{customFooterStyle}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\setcounter{secnumdepth}{0}
+\urlstyle{same}
 
-\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\color{mutedColor}\footnotesize \thepage}
 
-\titlespacing{\section}{
-    % left space:
-    -1pt
-}{
-    % top space:
-    0.3 cm
-}{
-    % bottom space:
-    0.2 cm
-} % section title spacing
+\titleformat{\section}
+  {\needspace{3\baselineskip}\large\bfseries\color{primaryColor}}
+  {}{0pt}{}[\vspace{1.5pt}\color{primaryColor}\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{5pt}
 
-\renewcommand\labelitemi{$\circ$} % custom bullet points
-\newenvironment{highlights}{
-    \begin{itemize}[
-        topsep=0.10 cm,
-        parsep=0.10 cm,
-        partopsep=0pt,
-        itemsep=0pt,
-        leftmargin=0.4 cm + 10pt
-    ]
-}{
-    \end{itemize}
-} % new environment for highlights
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\entryheading}[4]{%
+  \begin{tabularx}{\linewidth}{@{}Y>{\raggedleft\arraybackslash}p{1.55in}@{}}
+    \textbf{#1} & #2 \\
+    #3 & #4
+  \end{tabularx}
+}
+\newcommand{\projectheading}[2]{%
+  \Needspace{7\baselineskip}%
+  \begin{tabularx}{\linewidth}{@{}Y>{\raggedleft\arraybackslash}p{1.45in}@{}}
+    \textbf{#1} & #2
+  \end{tabularx}
+}
+\newcommand{\membershiprow}[3]{%
+  \textbf{#1}, #2 & #3 \\[2pt]
+}
 
-\newenvironment{highlightsforbulletentries}{
-    \begin{itemize}[
-        topsep=0.10 cm,
-        parsep=0.10 cm,
-        partopsep=0pt,
-        itemsep=0pt,
-        leftmargin=10pt
-    ]
-}{
-    \end{itemize}
-} % new environment for highlights for bullet entries
+\newenvironment{cvitems}{%
+  \begin{itemize}[
+    leftmargin=15pt,
+    label=\textbullet,
+    labelsep=6pt,
+    topsep=2pt,
+    itemsep=1.5pt,
+    parsep=0pt,
+    partopsep=0pt
+  ]
+}{\end{itemize}}
 
+\newenvironment{compactitems}{%
+  \begin{itemize}[
+    leftmargin=13pt,
+    label=\textbullet,
+    labelsep=5pt,
+    topsep=1pt,
+    itemsep=1pt,
+    parsep=0pt,
+    partopsep=0pt
+  ]
+}{\end{itemize}}
 
-\newenvironment{onecolentry}{
-    \begin{adjustwidth}{
-        0.2 cm + 0.00001 cm
-    }{
-        0.2 cm + 0.00001 cm
-    }
-}{
-    \end{adjustwidth}
-} % new environment for one column entries
+\newenvironment{researchsubitems}{%
+  \begin{itemize}[
+    leftmargin=19pt,
+    label=\raisebox{0.25ex}{\rule{3pt}{3pt}},
+    labelsep=7pt,
+    topsep=1pt,
+    itemsep=0.5pt,
+    parsep=0pt,
+    partopsep=0pt
+  ]
+}{\end{itemize}}
 
-\newenvironment{twocolentry}[2][]{
-    \onecolentry
-    \def\secondColumn{#2}
-    \setcolumnwidth{\fill, 4.5 cm}
-    \begin{paracol}{2}
-}{
-    \switchcolumn \raggedleft \secondColumn
-    \end{paracol}
-    \endonecolentry
-} % new environment for two column entries
+\newenvironment{cvnumbers}{%
+  \begin{enumerate}[
+    leftmargin=18pt,
+    label=\arabic*.,
+    labelsep=5pt,
+    topsep=2pt,
+    itemsep=2pt,
+    parsep=0pt,
+    partopsep=0pt
+  ]
+}{\end{enumerate}}
 
-\newenvironment{header}{
-    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
-}{
-    \par\kern\topsep
-} % new environment for the header
+\newcommand{\entryspace}{\vspace{5pt}}
+\newcommand{\projectspace}{\vspace{4pt}}
 
-\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
-  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+\newcommand{\placelastupdatedtext}{%
+  \AddToShipoutPictureFG*{%
     \put(
-        \LenToUnit{5 cm},
-        \LenToUnit{\paperheight-0.7 cm}
-    ){\vtop{{\null}\makebox[0pt][c]{
-        \small\color{gray}\textit{Last updated 10/16/2025}\hspace{\widthof{Last updated 06/01/25}}
-    }}}%
+      \LenToUnit{\paperwidth-0.76in},
+      \LenToUnit{\paperheight-0.30in}
+    ){\makebox[0pt][r]{\footnotesize\color{mutedColor}Last updated August 30, 2026}}%
   }%
-}%
-
-% save the original href command in a new command:
-\let\hrefWithoutArrow\href
-
-% new command for external links:
-\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
-
+}
 
 \begin{document}
-    \newcommand{\AND}{\unskip
-        \cleaders\copy\ANDbox\hskip\wd\ANDbox
-        \ignorespaces
-    }
-    \newsavebox\ANDbox
-    \sbox\ANDbox{}
 
-    \placelastupdatedtext
-    \begin{header}
-        \textbf{\fontsize{24 pt}{24 pt}\selectfont Sandeep Regmi}
+\placelastupdatedtext
+\begin{center}
+  {\fontsize{24pt}{26pt}\selectfont\bfseries Sandeep Regmi}
 
-        \vspace{0.3 cm}
+  \vspace{0.30cm}
+  {\normalsize
+    \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace{0.13cm}Tucson, AZ}
+    \kern 0.25cm
+    \mbox{\href{mailto:sandeepregmi@arizona.edu}{{\color{black}\footnotesize\faEnvelope[regular]}\hspace{0.13cm}sandeepregmi@arizona.edu}}
+    \kern 0.25cm
+    \mbox{\href{tel:+15202705054}{{\color{black}\footnotesize\faPhone*}\hspace{0.13cm}(520) 270-5054}}
+    \kern 0.25cm
+    \mbox{\href{https://www.linkedin.com/in/sandeep-regmi-969070209/}{{\color{black}\footnotesize\faLinkedinIn}\hspace{0.13cm}Sandeep Regmi}}
+  }
+\end{center}
 
-        \normalsize
-        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm}Tucson, AZ}%
-        \kern 0.25 cm%
-        \AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{mailto:sandeepregmi@arizona.edu}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}sandeepregmi@arizona.edu}}%
-        \kern 0.25 cm%
-        \AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{tel:+1-520-270-5054}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}(520) 270-5054}}%
-        \kern 0.25 cm%
-        \AND%
-        %\kern 0.25 cm%
-        %\mbox{\hrefWithoutArrow{https://yourwebsite.com/}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}yourwebsite.com}}%
-        %\kern 0.25 cm%
-        %\AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/sandeep-regmi-969070209/}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}Sandeep Regmi}}%
-        \kern 0.25 cm%
-        %\AND%
-        %\kern 0.25 cm%
-        %\mbox{\hrefWithoutArrow{https://github.com/yourusername}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}yourusername}}%
-    \end{header}
+\vspace{1pt}
 
-    \vspace{0.6 cm}
+\section{Education}
 
+\entryheading
+  {Ph.D. in Transportation Engineering}
+  {Aug. 2025 -- Present}
+  {University of Arizona, Tucson, AZ}
+  {}
+Advisor: Yao-Jan Wu, Ph.D., P.E.
 
-\section{EDUCATION}
-    
-    \begin{itemize}[leftmargin=*, labelsep=0.5em, itemsep=0em, label=\textbullet]
+\entryspace
+\entryheading
+  {Bachelor of Civil Engineering}
+  {Nov. 2018 -- Apr. 2023}
+  {Purwanchal Campus, Institute of Engineering, Tribhuvan University, Nepal}
+  {}
 
-    \item \textbf{Ph.D.}, Transportation Engineering, University of Arizona, Tucson, Arizona, United States (Aug 2025 – Present)	
-    
-    \item \textbf{Bachelors}, Civil Engineering, Purwanchal Campus, Institute of Engineering (IOE), Tribhuvan University, Nepal (Nov 2018 – Apr 2023)	 
-    
-    \item \textbf{Higher Secondary School}, Mahakavi Devkota Higher Secondary School, Sunwal, Nawalparasi(West), Nepal (Jul 2016- May 2018) 
-    \item \textbf{High School}, Siddartha Shishu Sadan Secondary English Boarding School, Sunwal, Nawalparasi(West), Nepal (Apr 2006- Apr 2016) 
+\section{Research Interests}
 
-    \end{itemize}
+\begin{compactitems}
+  \item \textbf{Intelligent Transportation Systems (ITS)}
+    \begin{researchsubitems}
+      \item Traffic detection and incident management
+      \item Traffic operations and simulation
+      \item Traffic management systems and software lifecycle
+    \end{researchsubitems}
+  \item \textbf{Data-Driven Transportation Systems Analysis}
+    \begin{researchsubitems}
+      \item Transportation data management and analysis
+      \item Traffic sensor integration and dashboard applications
+      \item Transportation system performance measurement
+    \end{researchsubitems}
+  \item \textbf{Transportation Safety Analysis and Crash Modeling}
+    \begin{researchsubitems}
+      \item Automated vehicle safety assessment
+    \end{researchsubitems}
+\end{compactitems}
 
-\vspace{0 cm} 
-   
-\section{RESEARCH INTERESTS}
-    \begin{itemize}[leftmargin=*, labelsep=0.5em, itemsep=0em, label=\textbullet]
-    \item Traffic Operations and Simulation
-    \item Traffic Safety Analysis and Crash Modeling
-    \item Intelligent Transportation Systems
-    \item Big Data Analytics
-    \end{itemize}
-    
-\section{RESEARCH ACTIVITIES}
-    
-    \begin{enumerate}[leftmargin=*, labelsep=0.5em, itemsep=0em]
-     \item "Real-time Anomaly Detection for Adaptive Ramp Metering" \textcolor{green}{(Working on Manuscript)}
-     \item Development of an Integrated Traffic Data Dashboard, \textit{City of Peoria, Peoria, AZ} \textcolor{red}{(Ongoing)}
-    \item PTZ Camera Literature Review, \textit{Tucson Department of Transportation and Mobility (TDTM), Tucson, AZ} \textcolor{green}{(Completed)}
-    \end{enumerate}
-\vspace{0 cm} 
+\section{Work Experience}
 
-\section{WORK EXPERIENCE}
+\entryheading
+  {Graduate Research Assistant}
+  {Dec. 2025 -- Present}
+  {Center for Applied Transportation Sciences (CATS)}
+  {}
+University of Arizona
 
-    \textbf{Graduate Research Assistant} \hfill [Aug 2025 -- Present] \\
-    Arizona Transportation Institute (AZTI) \\
-    Center for Applied Transportatin Sciences (CATS)\\
-    Department of Civil \& Architectural Engineering \& Mechanics, University of Arizona\\
+\entryspace
+\entryheading
+  {Graduate Research Assistant}
+  {Aug. 2025 -- Dec. 2025}
+  {Arizona Transportation Institute (AZTI)}
+  {}
+University of Arizona
 
-    \textbf{Civil Engineer} \hfill [Jul 2023 -- May 2025]\\
-    China State Construction Engineering Corporation Limited, Nawalparasi(West), Nepal\\
+\entryspace
+\entryheading
+  {Civil Engineer}
+  {July 2023 -- May 2025}
+  {China State Construction Engineering Corporation Limited}
+  {}
+Nawalparasi (West), Nepal
 
-								              
-\vspace{0 cm} 
+% Empty section retained for future use:
+% \section{Journal Publications}
 
-\section{HONORS AND AWARDS}
+% Empty section retained for future use:
+% \section{Journal Publications (Under Review)}
 
-\begin{itemize}[leftmargin=*, labelsep=0.5em, itemsep=0em, label=\textbullet]
-    
-    \item Received partial scholarship for Bachelor in Civil Engineering based on the performance in Entrance Examination of the Institute of Engineering 2017 A.D.(Rank 1299 out of about 16000 students) 
-    
-    \item Received partial scholarship for a higher secondary school based on the performance of School Leaving Certificate Examination 2016 A.D. and entrance examination performance. 
-    
-    \item Received full Scholarship for extraordinary performance in each academic year of school. 
+\section{Manuscripts in Progress}
 
-\end{itemize}
+\begin{cvnumbers}
+  \item Regmi, S., Pudasaini, P., \& Wu, Y.-J. (2026). Early Detection and Localization of Unreported Freeway Incidents Using Multisource Traffic Data. Manuscript in preparation.
+\end{cvnumbers}
 
-\vspace{0 cm} 
+\section{Project Experience}
 
-\section{LICENSES}
+\projectheading
+  {Safety Assessment of Automated Vehicles in the City of Phoenix}
+  {Aug. 2026 -- Present}
+\begin{cvitems}
+  \item Assist with acquiring and integrating automated-vehicle crash, operational, roadway, and traffic datasets into a unified geospatial and analytical database.
+  \item Support comparative analyses of automated and human-driven vehicle crash rates, severity, typologies, and contributing roadway and environmental factors.
+\end{cvitems}
 
-\begin{itemize}[leftmargin=*, labelsep=0.5em, itemsep=0em, label=\textbullet]
-    
-    \item Registered Civil Engineer (Nepal Engineering Council): Registration No.: 80231 Civil "A" Category
+\projectspace
+\projectheading
+  {NCHRP 03-152: Managing the Life Cycle of Software for Evolving Traffic Management Systems}
+  {June 2026 -- Present}
+\begin{cvitems}
+  \item Support a state-of-the-practice review of software lifecycle management for traffic management systems, covering planning, procurement, integration, testing, maintenance, and staffing.
+  \item Assist with developing a nationwide agency survey to document current practices, challenges, and emerging strategies across state DOTs and regional and local agencies.
+\end{cvitems}
 
-\end{itemize}
+\projectspace
+\projectheading
+  {HAWK Pedestrian Signal Warrant Review (CATS TSR FY26-05, PCDOT)}
+  {Summer 2026}
+\begin{cvitems}
+  \item Reviewed HAWK and pedestrian-signal warrant criteria used by agencies in Arizona and other states, including potential updates in the 11th Edition of the MUTCD.
+  \item Summarized agency practices in a comparison table and developed recommendations for updating PCDOT's approach, with attention to latent pedestrian demand and volume thresholds.
+\end{cvitems}
 
-\vspace{0 cm} 
+\projectspace
+\projectheading
+  {Development of Integrated Traffic Data Dashboard for Peoria}
+  {Feb. 2026 -- Present}
+\begin{cvitems}
+  \item Clean and analyze data from heterogeneous traffic sensors to support data integration, database development, and dashboard modules.
+  \item Assist with reviewing detector inventories, vendor data structures, and API capabilities for modules addressing volume, speed, arrivals on green, and related performance measures.
+\end{cvitems}
+
+\projectspace
+\projectheading
+  {PTZ Cameras Literature Review (CATS TSR FY26-01, TDTM)}
+  {Fall 2025}
+\begin{cvitems}
+  \item Surveyed Arizona transportation agencies and vendors to catalog approved pan-tilt-zoom camera products, specifications, and traffic-related capabilities.
+  \item Collected and synthesized camera-sharing policies and national best practices for coordination with law enforcement and partner agencies, informing TDTM's consideration of PTZ cameras as standard ITS devices.
+\end{cvitems}
+
+\section{Professional Presentations}
+
+\textbf{Conference Presentations}\par
+\begin{cvnumbers}
+  \item Early and Unreported Roadway Incident Detection Using Multisource Traffic Data. Poster presented at the 2026 ASCE International Conference on Transportation \& Development, June 28--July 1, 2026.
+  \item Early and Unreported Roadway Incident Detection Using Multisource Traffic Data. Poster presented at the 2026 Mountain District Annual Meeting, June 10--12, 2026.
+\end{cvnumbers}
+
+% Empty section retained for future use:
+% \section{Teaching Experience}
+
+\section{Awards and Honors}
+
+\begin{cvitems}
+  \item \textbf{Bachelor of Civil Engineering Partial Scholarship:} Institute of Engineering entrance examination (ranked 1,299 among approximately 16,000 examinees), 2017.
+  \item \textbf{Higher-Secondary Partial Scholarship:} School Leaving Certificate and entrance-examination performance, 2016.
+  \item \textbf{Annual Full Scholarship:} awarded for outstanding academic performance throughout school.
+\end{cvitems}
+
+\section{Professional Membership \& Leadership}
+
+\begin{tabularx}{\linewidth}{@{}Y>{\raggedleft\arraybackslash}p{1.55in}@{}}
+  \membershiprow
+    {Publicist}
+    {University of Arizona ITE Student Chapter}
+    {Aug. 2026 -- Present}
+  \membershiprow
+    {Member}
+    {Intelligent Transportation Society of Arizona (ITS Arizona)}
+    {Oct. 2025 -- Present}
+  \membershiprow
+    {Member}
+    {Institute of Transportation Engineers (ITE) Arizona Section}
+    {May 2026 -- Present}
+  \membershiprow
+    {Student Member}
+    {American Society of Civil Engineers (ASCE)}
+    {Feb. 2026 -- Present}
+\end{tabularx}
+
+\section{Licenses}
+
+\begin{cvitems}
+  \item Registered Civil Engineer, Nepal Engineering Council, Civil Category ``A,'' Registration No. 80231.
+\end{cvitems}
 
 \end{document}
